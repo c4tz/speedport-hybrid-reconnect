@@ -1,7 +1,7 @@
 # speedport-hybrid-reconnect
 Reconnect your Speedport Hybrid easily by using this class.
 
-##Usage:
+## Usage:
 
 ```python
 from router import SpeedportHybrid
