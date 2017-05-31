@@ -6,20 +6,15 @@ class SpeedportHybrid:
 	def __init__(self, password):
 		self.password = password
 		self.session =	requests.Session()
-		self.basePath = 'http://speedport.ip'
+		self.basePath = 'http://192.168.1.1'
 		self.ipAPI = 'https://api.ipify.org?format=json'
 		self.login()
 		atexit.register(self.logout)
 
 	def login(self):
-		url = self.basePath + '/data/Login.json?lang=de'
-		params = {
-			'csrf_token':'nulltoken',
-			'showpw':0,
-			'challengev':'null'
-		}
-		r = self.session.post(url, data = params)
-		challengev = r.json()[1]['varvalue']
+		url = self.basePath + '/html/login/index.html?lang=de'
+		r = self.session.get(url)
+		challengev = r.text.split('var challenge = "')[1].split('"')[0]
 
 		self.encryptpwd = hashlib.sha256((challengev + ':' + self.password).encode()).hexdigest()
 
@@ -27,7 +22,8 @@ class SpeedportHybrid:
 		params = {
 			'csrf_token':'nulltoken',
 			'showpw':0,
-			'password':self.encryptpwd
+			'password':self.encryptpwd,
+			'challengev': challengev
 		}
 		r = self.session.post(url, data = params)
 
