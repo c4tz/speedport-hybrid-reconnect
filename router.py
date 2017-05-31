@@ -6,7 +6,7 @@ class SpeedportHybrid:
 	def __init__(self, password):
 		self.password = password
 		self.session =	requests.Session()
-		self.basePath = 'http://192.168.1.1'
+		self.basePath = 'http://speedport.ip'
 		self.ipAPI = 'https://api.ipify.org?format=json'
 		self.login()
 		atexit.register(self.logout)
